@@ -2,6 +2,7 @@ import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import dat from "dat.gui";
+import { DirectionalLight } from "three";
 
 /*Dat.gui*/
 const gui = new dat.GUI();
@@ -47,8 +48,8 @@ sphere.position.x = -1.5;
 /*Plane*/
 const planeGeometry = new THREE.PlaneBufferGeometry(4.5, 4.5);
 const plane = new THREE.Mesh(planeGeometry, material);
-plane.rotation.x = -Math.PI * 0.5;
-plane.position.y = -0.65;
+plane.rotation.x = -Math.PI * 0.5; /*CERCA DI CAPIRE COM ELO HA RUOTATO!*/
+plane.position.y = -0.65; /*CERCA DI CAPIRE COM ELO HA RUOTATO!*/
 
 scene.add(torus, cube, sphere, plane);
 
@@ -58,11 +59,18 @@ camera.position.z = 3;
 scene.add(camera);
 
 /*Light*/
-const ambientLight = new THREE.AmbientLight /*Irrealistica, luce ovunque*/(
-  "0xffffff" /*Colore*/,
+const ambientLight = new THREE.AmbientLight(
+  /*Irrealistica, luce ovunque*/ "0xffffff" /*Colore*/,
   0.5 /*intensità*/
 );
 scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(
+  "0xffffff",
+  0.5
+); /*LUCE DA UNA SIREZIONE, SENZA BOUNCINGN*/
+directionalLight.position.set(1, 0.5, 0); /*Puoi gestire la direzione*/
+scene.add(directionalLight);
 /*Controls*/
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
