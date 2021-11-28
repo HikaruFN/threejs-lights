@@ -23,16 +23,46 @@ const sizes = {
 };
 
 /*Meshes*/
-const material = new THREE.MeshBasicMaterial();
-const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
+
+/*Material*/
+const material = new THREE.MeshStandardMaterial({
+  roughness: 0.5,
+}); /*MeshStandardMaterial richiede la luce!*/
+gui.add(material, "roughness").min(1).max(10); /*Debug roughness*/
+
+/*Torus*/
+const torusGeometry = new THREE.TorusBufferGeometry(0.3, 0.2, 32, 64);
+const torus = new THREE.Mesh(torusGeometry, material);
+torus.position.x = 1.5;
+
+/*Cube*/
+const cubeGeometry = new THREE.BoxGeometry(0.75, 0.75, 0.75);
 const cube = new THREE.Mesh(cubeGeometry, material);
-scene.add(cube);
+
+/*Sphere*/
+const sphereGeometry = new THREE.SphereBufferGeometry(0.5, 32, 32);
+const sphere = new THREE.Mesh(sphereGeometry, material);
+sphere.position.x = -1.5;
+
+/*Plane*/
+const planeGeometry = new THREE.PlaneBufferGeometry(4.5, 4.5);
+const plane = new THREE.Mesh(planeGeometry, material);
+plane.rotation.x = -Math.PI * 0.5;
+plane.position.y = -0.65;
+
+scene.add(torus, cube, sphere, plane);
 
 /*Camera*/
 const camera = new THREE.PerspectiveCamera(75, sizes.widht / sizes.height);
 camera.position.z = 3;
 scene.add(camera);
 
+/*Light*/
+const ambientLight = new THREE.AmbientLight /*Irrealistica, luce ovunque*/(
+  "0xffffff" /*Colore*/,
+  0.5 /*intensità*/
+);
+scene.add(ambientLight);
 /*Controls*/
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
